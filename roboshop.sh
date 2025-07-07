@@ -1,10 +1,10 @@
 #!/bin/bash
 
-AMI_ID = "ami-09c813fb71547fc4f"
-SG_ID  = "sg-050db45fd22113a83"
-INSTANCES = ("mongodb" "redis" "catalogue" "user" "cart" "shipping" "payment" "frontend" "dispatch" "rabbitmq" "mysql")
-ZONE_ID = "Z07092431FXHTW58PX8NM"
-DOMAIN_NAME = "skptech.site"
+AMI_ID="ami-09c813fb71547fc4f"
+SG_ID="sg-050db45fd22113a83"
+INSTANCES=("mongodb" "redis" "catalogue" "user" "cart" "shipping" "payment" "frontend" "dispatch" "rabbitmq" "mysql")
+ZONE_ID= "Z07092431FXHTW58PX8NM"
+DOMAIN_NAME="skptech.site"
 
 for instance in ${INSTANCES[@]}
 do 
