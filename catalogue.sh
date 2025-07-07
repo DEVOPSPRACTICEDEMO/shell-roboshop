@@ -57,6 +57,7 @@ VALIDATE $? "Creating app directory"
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip 
 VALIDATE $? "Downloading Catalogue"
 
+rm -rf /app/*
 cd /app
 unzip /tmp/catalogue.zip &>>$LOG_FILE
 VALIDATE $? "Unzipping Catalogue"
@@ -76,5 +77,14 @@ cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo
 dnf install mongodb-mongosh -y &>>$LOG_FILE
 VALIDATE $? "Installing MongoDB Client"
 
-mongosh --host mongodb.skptech.site </app/db/master-data.js &>>$LOG_FILE
-VALIDATE $? "Loading data into MongoDB"
+STATUS=$(mongosh --host mongodb.skptech.site --eval 'db.getMongo().getDBNames().indexOf("catalogue")')
+if [$STATUS -lt 0 ]
+then
+    mongosh --host mongodb.skptech.site </app/db/master-data.js &>>$LOG_FILE
+    VALIDATE $? "Loading data into MongoDB"
+else
+    echo -e "Data is already loaded ... $Y SKIPPING $N"
+fi
+
+
+
