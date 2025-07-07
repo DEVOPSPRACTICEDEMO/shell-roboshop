@@ -10,9 +10,9 @@ SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
 LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log"
 
 mkdir -p $LOGS_FOLDER
-echo "Script started executing at: $(date)" | tee -a $LOG_FILE
+echo -e "$Y Script started executing at: $(date) $N" | tee -a $LOG_FILE
 
-#Check the use has root priveleges or not
+#Check the user has root privileges or not
 if [ $USER_ID -ne 0 ]
 then
     echo -e "$R ERROR:: Please run this script with root access $N" | tee -a $LOG_FILE
@@ -21,9 +21,9 @@ else
     echo "You are running with root access" | tee -a $LOG_FILE
 fi
 
-#Validate function takes input as exit status, what command theu tried to install
+#Validate function takes input as exit status, what command they tried to install
 VALIDATE(){
-    if[ $1 -eq 0 ]
+    if [ $1 -eq 0 ]
     then
         echo -e "$2 is ... $G SUCCESS $N" | tee -a $LOG_FILE
     else
@@ -32,7 +32,7 @@ VALIDATE(){
     fi
 }
 
-cp mongodb.repo /etc/yum.repos.d/mongo.repo
+cp mongo.repo /etc/yum.repos.d/mongodb.repo
 VALIDATE $? "Copying MongoDB repo"
 
 dnf install mongodb-org -y &>>$LOG_FILE
