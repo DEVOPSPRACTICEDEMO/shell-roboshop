@@ -1,7 +1,7 @@
 #!/bin/bash
 
 AMI_ID = "ami-09c813fb71547fc4f"
-SG_ID  = "sg-0bd8441bbc0976c4e"
+SG_ID  = "sg-050db45fd22113a83"
 INSTANCES = ("mongodb" "redis" "catalogue" "user" "cart" "shipping" "payment" "frontend" "dispatch" "rabbitmq" "mysql")
 ZONE_ID = "Z07092431FXHTW58PX8NM"
 DOMAIN_NAME = "skptech.site"
@@ -16,7 +16,7 @@ do
         IP= $(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
     fi
     echo "Instance $instance created with ID: $INSTANCE_ID and IP: $IP"
-    
+
     aws route53 change-resource-record-sets \
     --hosted-zone-id $ZONE_ID\
     --change-batch '
