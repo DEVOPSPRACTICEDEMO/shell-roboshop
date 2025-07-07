@@ -42,10 +42,16 @@ VALIDATE $? "Enabling nodejs:20"
 dnf install nodejs -y &>>$LOG_FILE
 VALIDATE $? "Installing nodejs:20"
 
-useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
-VALIDATE $? "Creating roboshop system user"
+id roboshop
+if [$? -ne 0 ]
+then
+    useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
+    VALIDATE $? "Creating roboshop system user"
+else
+    echo -e "System User roboshop already created ... $Y SKIPPING $N"
+fi
 
-mkdir /app
+mkdir -p /app
 VALIDATE $? "Creating app directory"
 
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip 
@@ -71,3 +77,4 @@ dnf install mongodb-mongosh -y &>>$LOG_FILE
 VALIDATE $? "Installing MongoDB Client"
 
 mongosh --host mongodb.skptech.site </app/db/master-data.js &>>$LOG_FILE
+VALIDATE $? "Loading data into MongoDB"
