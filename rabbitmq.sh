@@ -43,7 +43,7 @@ VALIDATE $? "Adding rabbitmq repo"
 dnf install rabbitmq-server -y &>>$LOG_FILE
 VALIDATE $? "Installing rabbitmq server"
 
-systemctl enable rabbitmq-server &>>$LOG_FILE
+systemctl enable rabbitmq-server  &>>$LOG_FILE
 VALIDATE $? "Enabling rabbitmq server"
 
 systemctl start rabbitmq-server &>>$LOG_FILE
